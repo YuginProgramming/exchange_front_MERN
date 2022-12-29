@@ -1,10 +1,8 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Grid from '@mui/material/Grid';
-
-import axios from '../axios';
 
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
@@ -13,10 +11,15 @@ import { fetchPosts } from '../redux/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch();
+  const { posts, tags } = useSelector(state => state.posts);
+
+  const isPostsLoading = posts.status === 'loading';
 
   React.useEffect(() => {
       dispatch(fetchPosts());
   }, []);
+
+  console.log(posts);
 
   return (
     <>
@@ -26,10 +29,13 @@ export const Home = () => {
       </Tabs>
       <Grid container spacing={4}>
         <Grid xs={8} item>
-          {[...Array(5)].map(() => (
+          {(isPostsLoading ? [...Array(5)] : posts.items).map((obj, index) => 
+          isPostsLoading ? (
+            <Post key={index} isLoading={true} />
+          ) : (
             <Post
-              id={1}
-              title="We are supply power generators for UAF"
+              id={obj._id}
+              title={obj.title}
               imageUrl="https://images.prom.ua/4097045941_portativnaya-zaryadnaya-stantsiya.jpg"
               user={{
                 avatarUrl:
@@ -40,7 +46,7 @@ export const Home = () => {
               viewsCount={150}
               commentsCount={3}
               tags={['react', 'fun', 'typescript']}
-              isLoading={true}
+              
               isEditable
             />
           ))}
