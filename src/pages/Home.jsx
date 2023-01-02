@@ -12,14 +12,14 @@ import { fetchPosts } from '../redux/slices/posts';
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector(state => state.posts);
-
+//console.log(posts);
   const isPostsLoading = posts.status === 'loading';
 
   React.useEffect(() => {
       dispatch(fetchPosts());
   }, []);
 
-  console.log(posts);
+  //console.log(posts);
 
   return (
     <>
