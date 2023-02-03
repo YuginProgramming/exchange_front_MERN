@@ -7,19 +7,19 @@ import Grid from '@mui/material/Grid';
 import { Post } from '../components/Post';
 import { TagsBlock } from '../components/TagsBlock';
 import { CommentsBlock } from '../components/CommentsBlock';
-import { fetchPosts } from '../redux/slices/posts';
+import { fetchPosts, fetchTags } from '../redux/slices/posts';
 
 export const Home = () => {
   const dispatch = useDispatch();
   const { posts, tags } = useSelector(state => state.posts);
-//console.log(posts);
+  
   const isPostsLoading = posts.status === 'loading';
+  const isTagsLoading = tags.status === 'loading';
 
   React.useEffect(() => {
       dispatch(fetchPosts());
+      dispatch(fetchTags());
   }, []);
-
-  //console.log(posts);
 
   return (
     <>
@@ -37,22 +37,17 @@ export const Home = () => {
               id={obj._id}
               title={obj.title}
               imageUrl="https://images.prom.ua/4097045941_portativnaya-zaryadnaya-stantsiya.jpg"
-              user={{
-                avatarUrl:
-                  'https://res.cloudinary.com/practicaldev/image/fetch/s--uigxYVRB--/c_fill,f_auto,fl_progressive,h_50,q_auto,w_50/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/187971/a5359a24-b652-46be-8898-2c5df32aa6e0.png',
-                fullName: 'Keff',
-              }}
-              createdAt={'12 jun 2022 г.'}
-              viewsCount={150}
+              user={obj.user}
+              createdAt={obj.createdAt}
+              viewsCount={obj.viewsCount}
               commentsCount={3}
-              tags={['react', 'fun', 'typescript']}
-              
+              tags={obj.tags}
               isEditable
             />
           ))}
         </Grid>
         <Grid xs={4} item>
-          <TagsBlock items={['react', 'typescript', 'notes']} isLoading={false} />
+          <TagsBlock items={tags.items} isLoading={isTagsLoading} />
           <CommentsBlock
             items={[
               {
