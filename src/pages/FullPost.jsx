@@ -34,7 +34,7 @@ export const FullPost = () => {
       <Post
         id={data._id}
         title={data.title}
-        imageUrl="https://images.prom.ua/4097045941_portativnaya-zaryadnaya-stantsiya.jpg"
+        imageUrl={data.imageUrl}
         user={data.user}
         createdAt={data.createdAt}
         viewsCount={data.viewsCount}

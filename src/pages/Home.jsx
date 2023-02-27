@@ -36,7 +36,7 @@ export const Home = () => {
             <Post
               id={obj._id}
               title={obj.title}
-              imageUrl="https://images.prom.ua/4097045941_portativnaya-zaryadnaya-stantsiya.jpg"
+              imageUrl={obj.imageUrl}
               user={obj.user}
               createdAt={obj.createdAt}
               viewsCount={obj.viewsCount}
