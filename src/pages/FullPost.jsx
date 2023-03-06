@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { Post } from "../components/Post";
 import { Index } from "../components/AddComment";
 import { CommentsBlock } from "../components/CommentsBlock";
-import axios from "axios";
+import axios from "../axios";
 import { DateRange } from "@mui/icons-material";
 
 export const FullPost = () => {
@@ -23,7 +23,7 @@ export const FullPost = () => {
       console.warn(err);
       alert('failed to get the post')
     });
-  },[]);
+  },[id]);
 
   if (isLoading) {
     return <Post isLoading={isLoading} isFullPost />;
