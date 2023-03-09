@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import Avatar from '@mui/material/Avatar';
 
 import styles from './Login.module.scss';
-import { fetchAuth, selectIsAuth } from '../../redux/slices/auth';
+import { fetchAuth, fetchRegister, selectIsAuth } from '../../redux/slices/auth';
 
 export const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
@@ -18,7 +18,6 @@ export const Registration = () => {
   const { 
     register,
     handleSubmit,
-    setError,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
@@ -30,10 +29,10 @@ export const Registration = () => {
   }); 
 
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchAuth(values));
+    const data = await dispatch(fetchRegister(values));
 
     if (!data.payload) {
-      return alert ('Faild to logIn')
+      return alert ('Faild to Register')
     }
 
     if ('token' in data.payload) {
@@ -80,7 +79,7 @@ export const Registration = () => {
         label="Password"
         fullWidth 
         />
-      <Button type ="submit" size="large" variant="contained" fullWidth>
+      <Button disabled={!isValid} type ="submit" size="large" variant="contained" fullWidth>
         Sign Up
       </Button>
      </form>
